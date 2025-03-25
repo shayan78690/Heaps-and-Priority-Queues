@@ -1,0 +1,99 @@
+class Main {
+    
+    static class Heap {
+        static int arr[];
+        static int size;
+        static int capacity;
+        
+        Heap(int capacity) {
+            this.capacity = capacity;
+            arr = new int[capacity];
+            size = 0;
+        }
+        
+        public static void insert(int val) {
+            if(size == capacity) {
+                return;
+            }
+            arr[size] = val;
+            size++;
+            
+            int index = size - 1;
+            
+            while(index > 0 && arr[parent(index)] > arr[index]) {
+                swap(index, parent(index));
+                index = parent(index);
+            }
+        }
+        
+        public static int remove() {
+            if(size == 0) {
+                return -1;
+            }
+            
+            int min = arr[0];
+            arr[0] = arr[size-1];
+            size--;
+            
+            heapify(0);
+            
+            return min;
+        }
+        
+        public static void heapify(int index) {
+            int left = leftChild(index);
+            int right = rightChild(index);
+            int smallest = index;
+            
+            if(left < size && arr[smallest] > arr[left]) {
+                smallest = left;
+            }
+            if(right < size && arr[smallest] > arr[right]) {
+                smallest = right;
+            }
+            if(smallest != index) {
+                swap(index, smallest);
+                heapify(smallest);
+            }
+        }
+        
+        public static void swap(int i, int j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+        
+        public static int parent(int index) {
+            return (index-1) / 2;
+        }
+        
+        public static int leftChild(int index) {
+            return 2 * index + 1;
+        }
+        
+        public static int rightChild(int index) {
+            return 2 * index + 2;
+        }
+        
+        public static void print() {
+            for(int i = 0; i < size; i++) {
+                System.out.print(arr[i]+" ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static void main(String args[]) {
+        Heap h = new Heap(5);
+        h.insert(5);
+        h.insert(2);
+        h.insert(3);
+        h.insert(1);
+        h.insert(4);
+        
+        h.print();
+        
+        System.out.println(h.remove());
+        h.print();
+    }
+}
