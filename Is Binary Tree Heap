@@ -1,0 +1,42 @@
+class Solution {
+    
+    int countNodes(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+    
+    boolean isCBT(Node root, int index, int totalNodes) {
+        if (root == null) {
+            return true;
+        }
+        if (index >= totalNodes) {
+            return false;
+        }
+        
+        boolean left = isCBT(root.left, 2 * index + 1, totalNodes);
+        boolean right = isCBT(root.right, 2 * index + 2, totalNodes);
+        return (left && right);
+    }
+    
+    boolean isMaxHeap(Node root) {
+        if (root.left == null && root.right == null) {
+            return true;
+        }
+        if (root.right == null) {
+            return root.data > root.left.data;
+        }
+        
+        boolean left = isMaxHeap(root.left);
+        boolean right = isMaxHeap(root.right);
+        
+        return (left && right) && (root.data > root.left.data && (root.right == null || root.data > root.right.data));
+    }
+    
+    boolean isHeap(Node tree) {
+        int index = 0;
+        int totalNodes = countNodes(tree);
+        return isCBT(tree, index, totalNodes) && isMaxHeap(tree);
+    }
+}
