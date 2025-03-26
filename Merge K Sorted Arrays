@@ -1,5 +1,58 @@
 class Solution
 {
+    static class Pair implements Comparable<Pair> {
+        int val;
+        int i;
+        int j;
+        
+        Pair(int val, int i, int j) {
+            this.val = val;
+            this.i = i;
+            this.j = j;
+        }
+        
+        public int compareTo(Pair p) {
+            return this.val - p.val;
+        }
+    }
+    //Function to merge k sorted arrays.
+    public static ArrayList<Integer> mergeKArrays(int[][] arr,int K) 
+    {
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for(int i = 0; i < arr.length; i++) {
+            pq.add(new Pair(arr[i][0], i, 0));
+        }
+        
+        ArrayList<Integer> ans = new ArrayList<>();
+        while(!pq.isEmpty()) {
+            Pair  p = pq.poll();
+            ans.add(p.val);
+            
+             if (p.j + 1 < arr[p.i].length) {
+                pq.add(new Pair(arr[p.i][p.j + 1], p.i, p.j + 1));  
+            }
+        }
+        return ans;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution
+{
     //Function to merge k sorted arrays.
     public static ArrayList<Integer> mergeKArrays(int[][] arrays,int K) 
     {
