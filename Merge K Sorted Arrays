@@ -1,0 +1,17 @@
+class Solution
+{
+    //Function to merge k sorted arrays.
+    public static ArrayList<Integer> mergeKArrays(int[][] arrays,int K) 
+    {
+     ArrayList<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < K; i++) {
+            for (int j = 0; j < K; j++) {
+                result.add(arrays[i][j]);
+            }
+        }
+
+        Collections.sort(result);
+        return result;
+    }
+}
