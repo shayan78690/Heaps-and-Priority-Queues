@@ -1,0 +1,47 @@
+class Solution {
+
+    class Row implements Comparable<Row> {
+        int count;
+        int i;
+
+        Row(int count, int i) {
+            this.count = count;
+            this.i = i;
+        }
+
+        public int compareTo(Row r2) {
+            if(this.count == r2.count) {
+                return this.i - r2.i;
+            }
+            else {
+                return this.count - r2.count;
+            }
+        }
+    }
+    
+
+    public int[] kWeakestRows(int[][] mat, int k) {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        PriorityQueue<Row> pq = new PriorityQueue<>();
+        for(int i = 0; i < n; i++) {
+            int count = 0;
+            for(int j = 0; j < m; j++) {
+                if(mat[i][j] == 1) {
+                    count++;
+                } else {
+                    continue;
+                }
+            }
+            pq.add(new Row(count, i));
+        }
+
+        int ans[] = new int[k];
+        for(int i = 0; i < k; i++) {
+            Row r = pq.remove();
+            ans[i] = r.i;
+        }
+        return ans;
+    }
+}
