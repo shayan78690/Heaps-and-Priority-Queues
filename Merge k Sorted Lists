@@ -9,6 +9,70 @@
  * }
  */
 class Solution {
+
+    class Pair implements Comparable<Pair>{
+        int value;
+        ListNode node;
+
+        Pair(int value, ListNode node) {
+            this.value = value;
+            this.node = node;
+        }
+          
+        @Override
+        public int compareTo(Pair p2) {
+            return this.value - p2.value;
+        }
+    }
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null;
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for(int i = 0; i < lists.length; i++) {
+            if(lists[i] != null) {
+                pq.add(new Pair(lists[i].val, lists[i]));
+            }
+        }
+
+        ListNode dummy = new ListNode(-1);
+        ListNode temp = dummy;
+        while(!pq.isEmpty()) {
+            Pair p = pq.poll();
+            temp.next = p.node;
+            temp = temp.next;
+
+            if(p.node.next != null) {
+                pq.add(new Pair(p.node.next.val, p.node.next));
+            }
+        }
+        return dummy.next;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         if (lists == null || lists.length == 0) return null;
         ListNode head = lists[0];
