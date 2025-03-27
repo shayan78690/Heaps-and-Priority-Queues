@@ -1,0 +1,35 @@
+class Solution {
+    
+    static class Pair implements Comparable<Pair> {
+        int val;
+        int idx;
+        
+        Pair(int val, int idx) {
+            this.val = val;
+            this.idx = idx;
+        }
+        public int compareTo(Pair p) {
+            return this.val - p.val;
+        }
+    }
+    
+    static int[] replaceWithRank(int arr[], int N) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for(int i = 0; i < N; i++) {
+            pq.add(new Pair(arr[i], i));
+        }
+        int rank = 0;
+        int prev = -1;
+        int ans[] = new int[N];
+        while(!pq.isEmpty()) {
+            
+            Pair p = pq.poll();
+            if(prev != p.val) {
+                prev = p.val;
+                rank++;
+            }
+            ans[p.idx] = rank;
+        }
+        return ans;
+  }
+}
