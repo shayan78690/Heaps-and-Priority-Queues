@@ -1,0 +1,52 @@
+class Solution {
+
+    class Pair implements Comparable<Pair> {
+        int count;
+        int execution_time;
+
+        Pair(int count, int execution_time) {
+            this.count = count;
+            this.execution_time = execution_time;
+        }
+
+        @Override
+        public int compareTo(Pair p) {
+            return p.count - this.count;
+        }
+    }
+
+    public int leastInterval(char[] tasks, int n) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (char ch : tasks) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for (Character ch : map.keySet()) {
+            int freq = map.get(ch);
+            pq.add(new Pair(freq, 0));
+        }
+        Queue<Pair> q = new LinkedList<>();
+        int time = 0;
+        while (!pq.isEmpty() || !q.isEmpty()) {
+            time++;
+            // check if there is task in pq and process it
+            if (!pq.isEmpty()) {
+                Pair p = pq.poll();
+                p.count--;
+                if (p.count > 0) {
+                    // update the execution time
+                    p.execution_time = time + n;
+                    q.add(p);
+                }
+            }
+
+            // shift the active process to pq
+            if (!q.isEmpty() && q.peek().execution_time == time) {
+                pq.add(q.poll());
+            }
+        }
+        return time;
+
+    }
+}
