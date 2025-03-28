@@ -1,3 +1,60 @@
+import java.util.HashMap;
+import java.util.PriorityQueue;
+
+public class Solution {
+    static class Pair implements Comparable<Pair> {
+        char element;
+        int freq;
+
+        Pair(char element, int freq) {
+            this.element = element;
+            this.freq = freq;
+        }
+
+        public int compareTo(Pair p) {
+            if (this.freq != p.freq) {
+                return p.freq - this.freq; 
+            }
+            return this.element - p.element; 
+        }
+    }
+
+    public static String sortByFrequency(int n, String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for (Character key : map.keySet()) {
+            char element = key;
+            int freq = map.get(key);
+            pq.offer(new Pair(element, freq));
+        }
+
+        StringBuilder ans = new StringBuilder();
+        while (!pq.isEmpty()) {
+            Pair p = pq.poll();
+            for (int i = 0; i < p.freq; i++) {
+                ans.append(p.element);
+            }
+        }
+
+        return ans.toString();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 class Solution {
     class Element implements Comparable<Element> {
         char ch;
