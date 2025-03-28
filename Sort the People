@@ -1,0 +1,30 @@
+class Solution {
+    class Pair implements Comparable<Pair> {
+        String name;
+        int height;
+
+        Pair(String name, int height) {
+            this.name = name;
+            this.height = height;
+        }
+
+        public int compareTo(Pair p) {
+            return p.height - this.height;
+        }
+    }
+    public String[] sortPeople(String[] names, int[] heights) {
+        int n = names.length;
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for(int i = 0; i < n; i++) {
+            String name = names[i];
+            int height = heights[i];
+            pq.offer(new Pair(name, height));
+        }
+        String ans[] = new String[n];
+        for(int i = 0; i < n; i++) {
+            Pair p = pq.poll();
+            ans[i] = p.name;
+        }
+        return ans;
+    }
+}
