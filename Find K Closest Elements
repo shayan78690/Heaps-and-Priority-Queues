@@ -1,0 +1,32 @@
+class Solution {
+    class Pair implements Comparable<Pair> {
+        int val;
+        int diff;
+
+        Pair(int val, int diff) {
+            this.val = val;
+            this.diff = diff;
+        }
+
+        public int compareTo(Pair other) {
+            if (this.diff != other.diff) {
+                return this.diff - other.diff;
+            } else {
+                return this.val - other.val;
+            }
+        }
+    }
+
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for (int a : arr) {
+            pq.offer(new Pair(a, Math.abs(a - x)));
+        }
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            list.add(pq.poll().val);
+        }
+        Collections.sort(list);
+        return list;
+    }
+}
