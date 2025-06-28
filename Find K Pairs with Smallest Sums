@@ -1,0 +1,40 @@
+class Solution {
+    class Tuple implements Comparable<Tuple> {
+        int first;
+        int second;
+        int sum;
+
+        Tuple(int first, int second, int sum) {
+            this.first = first;
+            this.second = second;
+            this.sum = sum;
+        }
+
+        @Override
+        public int compareTo(Tuple other) {
+            return this.sum - other.sum;
+        }
+    }
+
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        int n = nums1.length;
+        int m = nums2.length;
+        PriorityQueue<Tuple> pq = new PriorityQueue<>();
+        for (int i = 0; i < Math.min(m, k); i++) {
+            pq.offer(new Tuple(0, i, nums1[0] + nums2[i]));
+        }
+
+        List<List<Integer>> ans = new ArrayList<>();
+        while (!pq.isEmpty() && k-- > 0) {
+            Tuple t = pq.poll();
+            List<Integer> temp = new ArrayList<>();
+            temp.add(nums1[t.first]);
+            temp.add(nums2[t.second]);
+            ans.add(temp);
+            if (t.first + 1 < n) {
+                pq.offer(new Tuple(t.first + 1, t.second, nums1[t.first + 1] + nums2[t.second]));
+            }
+        }
+        return ans;
+    }
+}
